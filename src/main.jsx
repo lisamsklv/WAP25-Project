@@ -1,11 +1,7 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import App from './App.jsx';
-import './index.css';
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
 
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
