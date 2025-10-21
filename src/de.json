@@ -1,0 +1,10 @@
+{
+    "hello": "Hallo Welt!",
+    "user": {
+        "firstName": "Vorname",
+        "lastName": "Nachname"
+    },
+    "items_one": "{{count}} Element",
+    "items_other": "{{count}} Elemente"
+
+}
