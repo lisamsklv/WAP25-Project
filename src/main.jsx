@@ -31,17 +31,13 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-  },
-  {
-    path: "/home",
-    element: <Home />,
-    errorElement: <div>Page not found</div>,
-  },
-  {
-    path: "/createrecipe",
-    element: <CreateRecipe />,
+    children: [
+      { path: "/", element: <Home /> },
+      { path: "/createrecipe", element: <CreateRecipe /> },
+    ],
   },
 ]);
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
