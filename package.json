@@ -1,17 +1,31 @@
 {
   "name": "wap25-project",
+  "version": "1.0.0",
   "private": true,
-  "version": "0.0.0",
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "homepage": "https://github.com/lisamsklv/WAP25-Project#readme",
+  "bugs": {
+    "url": "https://github.com/lisamsklv/WAP25-Project/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lisamsklv/WAP25-Project.git"
+  },
+  "license": "ISC",
+  "author": "",
   "type": "module",
+  "main": "eslint.config.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "nodemon app.js"
   },
   "dependencies": {
-    "i18next": "^25.6.0",
     "antd": "^5.27.6",
+    "express": "^5.1.0",
+    "i18next": "^25.6.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-i18next": "^16.1.3",
@@ -26,6 +40,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.4.0",
+    "nodemon": "^3.1.10",
     "vite": "^7.1.7"
   }
 }
