@@ -1,4 +1,5 @@
 import RecipeForm from "../components/RecipeForm";
+import App from "../App.jsx";
 
 function CreateRecipe() {
   const handleSubmit = (values) => {
@@ -7,10 +8,12 @@ function CreateRecipe() {
   };
 
   return (
-    <div>
-      <h2>Neues Rezept erstellen</h2>
-      <RecipeForm onSubmit={handleSubmit} />
-    </div>
+    <App>
+      <div>
+        <h2>Neues Rezept erstellen</h2>
+        <RecipeForm onSubmit={handleSubmit} />
+      </div>
+    </App>
   );
 }
 

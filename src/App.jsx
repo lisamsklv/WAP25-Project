@@ -1,21 +1,21 @@
-import { Layout, Menu, Button, Input } from "antd";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Layout, Menu, Input } from "antd";
+import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 const { Header, Content, Footer } = Layout;
 
-export default function App() {
-  const { t, i18n } = useTranslation();
+export default function App({ children }) {
+  const { t } = useTranslation();
   const location = useLocation();
 
   const menuItems = [
     { key: "/", label: <Link to="/">{t("Home")}</Link> },
     { key: "/createrecipe", label: <Link to="/createrecipe">{t("Create Recipe")}</Link> },
+    { key: "/login", label: <Link to="/login">{t("Login")}</Link> },
   ];
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      
       <Header
         style={{
           background: "#fff",
@@ -29,12 +29,8 @@ export default function App() {
           mode="horizontal"
           selectedKeys={[location.pathname]}
           items={menuItems}
-          style={{
-            flex: 1,
-            border: "none",
-          }}
+          style={{ flex: 1, border: "none" }}
         />
-
         <Input.Search
           placeholder="Search recipes"
           onSearch={(value) => console.log("Search:", value)}
@@ -43,9 +39,7 @@ export default function App() {
         />
       </Header>
 
-      <Content style={{ padding: "40px 20px" }}>
-        <Outlet />
-      </Content>
+      <Content style={{ padding: "40px 20px", textAlign: "center" }}>{children}</Content>
 
       <Footer style={{ textAlign: "center", opacity: 0.6 }}>
         Recipe App © {new Date().getFullYear()}

@@ -1,4 +1,5 @@
 import RecipeCard from "../components/RecipeCard";
+import App from "../App.jsx"; 
 
     const recipes = [
   {
@@ -16,13 +17,7 @@ import RecipeCard from "../components/RecipeCard";
 ];
 export default function Home() {
   return (
-    <div style={{ 
-      flex: 1,
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      padding: "60px",
-    }}>
+    <App>
       <h1 >Willkommen bei meinen Rezepten</h1>
       <p>Hier kannst du deine Lieblingsrezepte speichern und teilen.</p>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
@@ -30,7 +25,6 @@ export default function Home() {
         <RecipeCard key={r.id} recipe={r} />
       ))}
       </div>
-    </div>
-    
+    </App>
   );
 }
