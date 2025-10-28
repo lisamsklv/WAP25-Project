@@ -43,7 +43,7 @@ export default function App() {
         />
       </Header>
 
-      <Content style={{ flex: 1,padding: "40px 20px" }}>
+      <Content style={{ padding: "40px 20px" }}>
         <Outlet />
       </Content>
 

@@ -7,13 +7,7 @@ function CreateRecipe() {
   };
 
   return (
-    <div style={{ 
-      flex: 1,
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      padding: "60px",
-    }}>
+    <div>
       <h2>Neues Rezept erstellen</h2>
       <RecipeForm onSubmit={handleSubmit} />
     </div>
