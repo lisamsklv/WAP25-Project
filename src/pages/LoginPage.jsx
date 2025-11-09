@@ -1,4 +1,5 @@
 import { Button, Checkbox, Form, Input, List, Space, Typography } from 'antd';
+import App from '../App';
 
 
 
@@ -16,12 +17,12 @@ const onFinishFailed = (errorInfo) => {
 
 function LoginPage() {
     	return (
-		<div>
+            <App>
+		<div >
             <Form
                 name="basic"
-                labelCol={{ span: 8 }}
-                wrapperCol={{ span: 16 }}
-                style={{ maxWidth: 600 }}
+                layout="vertical"
+                style={{ maxWidth: 400, margin: '0 auto' }}
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
@@ -60,6 +61,7 @@ function LoginPage() {
 
             </Form>
 		</div>
+        </App>
 	);
 }
 

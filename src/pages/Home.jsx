@@ -6,21 +6,25 @@ import App from "../App.jsx";
     id: 1,
     title: "Spaghetti Bolognese",
     description: "A classic Italian pasta dish.",
-    image: "/images/spaghetti.jpg",
   },
   {
     id: 2,
-    title: "Chocolate Cake",
+    title: "Schokokuchen",
+    ingredients: [
+      { amount: "200g", name: "Flour" },
+      { amount: "100g", name: "Sugar" },
+    ],
+    category: "dessert",
     description: "Rich and moist chocolate cake.",
-    image: "/images/chocolate_cake.jpg",
   },
 ];
 export default function Home() {
   return (
     <App>
-      <h1 >Willkommen bei meinen Rezepten</h1>
+      <h1 >Willkommen in der Rezeptenwelt!</h1>
       <p>Hier kannst du deine Lieblingsrezepte speichern und teilen.</p>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+  
+      <div style={{ display: "flex", flexWrap: "wrap", align: "center", justifyContent: "center", gap: "20px" }}>
       {recipes.map((r) => (
         <RecipeCard key={r.id} recipe={r} />
       ))}
