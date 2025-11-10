@@ -25,7 +25,6 @@ app.use((req, res) => {
 });
 
 try {
-  const client = new MongoClient(connectionString);
   await client.connect();
   const db = client.db('demo');
 

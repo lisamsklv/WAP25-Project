@@ -19,3 +19,13 @@ If you are developing a production application, we recommend using TypeScript wi
 
 
 npm run build //after frontend changes
+
+
+.env File sollte auf den connection-string agepasst werden der mongoDB
+
+
+
+ToDO:
+Mock auth middleware 
+?middleware for logging in?
+DB and routes connection to DB
