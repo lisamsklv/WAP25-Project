@@ -8,6 +8,7 @@ export default function RecipeForm({ onSubmit, initialValues }) {
     <Form
       form={form}
       layout="vertical"
+      style={{ maxWidth: 600, margin: '0 auto' }}
       onFinish={onSubmit}
       initialValues={initialValues}
     >
@@ -64,6 +65,10 @@ export default function RecipeForm({ onSubmit, initialValues }) {
       </Form.List>
 
       <Form.Item label="Beschreibung" name="description" rules={[{ required: true, message: "Bitte Beschreibung eingeben" }]}>
+        <Input.TextArea rows={1} />
+      </Form.Item>
+
+      <Form.Item label="Zubereitung" name="instructions" rules={[{ required: true, message: "Bitte Zubereitung eingeben" }]}>
         <Input.TextArea rows={10} />
       </Form.Item>
 
@@ -73,9 +78,20 @@ export default function RecipeForm({ onSubmit, initialValues }) {
           <Select.Option value="vegetarian">Vegetarisch</Select.Option>
           <Select.Option value="vegan">Vegan</Select.Option>
           <Select.Option value="meat">Fleisch</Select.Option>
-          {/* weitere kategorien wie mittagsgerichte, winterspeisen etc. */}
+          <Select.Option value="breakfast">Frühstück</Select.Option>
+          <Select.Option value="lunch">Mittagessen</Select.Option>
+          <Select.Option value="dinner">Abendessen</Select.Option>
+          <Select.Option value="dessert">Dessert</Select.Option>
+          <Select.Option value="snack">Snack</Select.Option>
+          <Select.Option value="salad"></Select.Option>
+          <Select.Option value="drink">Getränk</Select.Option>
         </Select>
       </Form.Item>
+
+      {/* Eventuell später mal Bilder unterstützen
+      <Form.Item label="Bild" name="image" rules={[{ required: true, message: "Bitte Bild-URL eingeben" }]}>
+        <Input placeholder="Bild-URL" />
+      </Form.Item> */}
 
       <Button type="primary" htmlType="submit">
         Speichern

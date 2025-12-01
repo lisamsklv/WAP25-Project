@@ -1,99 +1,45 @@
 import express from 'express';
+import usersRouter from './routes/users.js';
+import recipesRouter from './routes/recipes.js';
 import { ObjectId } from 'mongodb';
+
 
 const router = express.Router();
 
-router.get('/user', async (req, res) => {
-  try {
-    const db = req.app.get('db'); // get reference to the db from app config
-    const users = await db.collection('users').find({}).toArray();
+router.use('/', usersRouter);
+router.use('/', recipesRouter);
 
-    res.json(users);
-  } catch(err) {
-    console.error(err);
-    res.status(500).send();
+async function writeAccess(req, res, next) {
+  const db = req.app.get('db');
+  // in authenticated middlewares (after `oauth.authenticate()`)
+  // you will find the token in `res.locals.oauth.token`
+  const user = await db.collection('user').findOne({ _id: res.locals?.oauth?.token?.user?.user_id });
+  if (user?.permissions?.write) {
+    res.locals.user = user; // we store a reference to the user object in `res.locals` for later use
+    next();
+  } else {
+    res.status(403).send();
   }
-});
+}
 
-router.get('/user/:id', async (req, res) => {
+router.post('/todo', writeAccess, async (req, res) => {
   try {
     const db = req.app.get('db');
-    const user = await db.collection('users').findOne({ _id: new ObjectId(req.params.id) });
+    const insertion = await db.collection('todo').insertOne({
+      ...req.body,
+      creator_id: res.locals.user._id,
+    });
 
-    if (user) {
-      res.json(user);
-    } else {
-      res.status(404).send();
-    }
-  } catch(err) {
-    console.error(err);
-    res.status(500).send();
-  }
-});
-
-
-router.post('/user', async (req, res) => {
-  try {
-    const db = req.app.get('db');
-    console.log(JSON.stringify(req.body, null, '\n'));
-    const insertion = await db.collection('users').insertOne(req.body);
     if (insertion.acknowledged) {
-      const user = await db.collection('users')
-        .findOne({ _id: insertion.insertedId });
+      const todo = await db.collection('todo').findOne({ _id: insertion.insertedId });
 
-      if (user) {
-        res.status(201).json(user);
+      if (todo) {
+        res.status(201).json(todo);
       } else {
         res.status(404).send();
       }
     } else {
       res.status(500).send();
-    }
-  } catch(err) {
-    console.error(err);
-    res.status(500).send();
-  }
-});
-
-router.put('/user/:id', async (req, res) => {
-  try {
-    const db = req.app.get('db');
-
-    const updateData = req.body;
-    delete updateData._id;
-
-    const updated = await db.collection('users')
-      .updateOne({ _id: new ObjectId(req.params.id) }, { $set: updateData });
-
-    if (updated.modifiedCount === 1) {
-      const user = await db.collection('users')
-        .findOne({ _id: new ObjectId(req.params.id) });
-
-      if (user) {
-        res.json(user);
-      } else {
-        res.status(404).send();
-      }
-    } else {
-      res.status(404).send();
-    }
-  } catch(err) {
-    console.error(err);
-    res.status(500).send();
-  }
-});
-
-
-router.delete('/user/:id', async (req, res) => {
-  try {
-    const db = req.app.get('db');
-    const deleted = await db.collection('users')
-      .deleteOne({ _id: new ObjectId(req.params.id) });
-
-    if (deleted.deletedCount === 1) {
-      res.send();
-    } else {
-      res.status(404).send();
     }
   } catch(err) {
     console.error(err);
