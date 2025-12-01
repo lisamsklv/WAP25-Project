@@ -1,12 +1,42 @@
 import { Button, Checkbox, Form, Input, List, Space, Typography } from 'antd';
 import App from '../App';
+import { use } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
+const onFinish = async (values) => {
+        const { username, password } = values;
 
-const onFinish = (values) => {
-    console.log('success:', values);
-};
+        const body = new URLSearchParams();
+        body.append("grant_type", "password");
+        body.append("username", username);
+        body.append("password", password);
+        body.append("client_id", "client");
 
+        const response = await fetch("http://localhost:3000/oauth/token", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body,
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            message.error(data.error || "Login failed");
+            return;
+        }
+
+        // Save OAuth tokens
+        localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("refresh_token", data.refresh_token);
+
+        message.success("Login successful!");
+
+        // Redirect to saved recipes page
+        navigate("/savedrecipes");
+    };
 
 const onFinishFailed = (errorInfo) => {
     console.log('failed:', errorInfo);
