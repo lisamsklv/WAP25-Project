@@ -1,10 +1,13 @@
 import { Button, Checkbox, Form, Input, List, Space, Typography } from 'antd';
+import { message } from "antd";
 import App from '../App';
 import { use } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
-const onFinish = async (values) => {
+function LoginPage() {
+    const navigate = useNavigate();
+    const onFinish = async (values) => {
+        
         const { username, password } = values;
 
         const body = new URLSearchParams();
@@ -13,7 +16,7 @@ const onFinish = async (values) => {
         body.append("password", password);
         body.append("client_id", "client");
 
-        const response = await fetch("http://localhost:3000/oauth/token", {
+        const response = await fetch("http://localhost:3000/api/token", {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
@@ -43,9 +46,6 @@ const onFinishFailed = (errorInfo) => {
 };
 
 
-
-
-function LoginPage() {
     	return (
             <App>
 		<div >
