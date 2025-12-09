@@ -7,10 +7,16 @@ import OAuthServer from 'express-oauth-server';
 import register from './backend_src/middleware/register.js';
 import oAuthModel from './backend_src/middleware/oAuthModel.js';
 import 'dotenv/config';
+import cors from "cors";
 
 
 const app = express();
 const port = 3000;
+
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // in OAuth2 standard, credentials are sent as "application/x-www-form-urlencoded", this middleware allows parsing it

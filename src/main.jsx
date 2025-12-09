@@ -10,6 +10,7 @@ import CreateRecipe from './pages/CreateRecipe.jsx'
 import Login from './pages/LoginPage.jsx'
 import Registration from './pages/RegistrationPage.jsx'
 import RecipePage from './pages/RecipePage.jsx'
+import SavedRecipes from './pages/SavedRecipes.jsx'
 
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
@@ -44,7 +45,12 @@ const router = createBrowserRouter([
   {
     path: "/recipe",
     element: <RecipePage />
-  }
+  },
+
+  {
+    path: "/savedrecipes",
+    element: <SavedRecipes />
+  },
 
 
 

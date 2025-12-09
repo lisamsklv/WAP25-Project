@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Card, Col, Row } from 'antd';
+import { Card } from 'antd';
 
 export default function RecipeCard({ recipe }) {
   const navigate = useNavigate();
@@ -8,8 +8,8 @@ export default function RecipeCard({ recipe }) {
     <Card
       hoverable
       style={{ width: 240, margin: 16, textAlign: 'left' }}
-      title={recipe.title} 
-      onClick={() => navigate(`/recipe/${recipe.id}`)} // navigate on click
+      title={recipe.title}
+      onClick={() => navigate(`/recipe/${recipe._id}`)}
     >
       <Card.Meta description={recipe.description} />
     </Card>
