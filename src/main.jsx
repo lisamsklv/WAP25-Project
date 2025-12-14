@@ -1,80 +1,60 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { createBrowserRouter } from 'react-router-dom'
-import { RouterProvider } from 'react-router-dom'
-
-import './index.css'
-import App from './App.jsx'
-import Home from './pages/Home.jsx'
-import CreateRecipe from './pages/CreateRecipe.jsx'
-import Login from './pages/LoginPage.jsx'
-import Registration from './pages/RegistrationPage.jsx'
-import RecipePage from './pages/RecipePage.jsx'
-import SavedRecipes from './pages/SavedRecipes.jsx'
-
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-
-import en from './en.json';
-import de from './de.json';
-
-import { cyan } from '@ant-design/colors';
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />
+import "./index.css";
+import App from "./App.jsx";
+import Home from "./pages/Home.jsx";
+import CreateRecipe from "./pages/CreateRecipe.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import RecipePage from "./pages/RecipePage.jsx";
+import SavedRecipes from "./pages/SavedRecipes.jsx";
+import RegistrationPage from "./pages/RegistrationPage.jsx";
+
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import en from "./en.json";
+import de from "./de.json";
+
+i18n.use(initReactI18next).init({
+  resources: {
+    en: { translation: en },
+    de: { translation: de },
   },
+  lng: "en",
+  fallbackLng: "en",
+  interpolation: { escapeValue: false },
+});
 
-  {
-    path: "/login",
-    element: <Login />
-  }, 
+function Main() {
+  // put auth state here so App + LoginPage can share it
+  const [isLoggedIn, setIsLoggedIn] = React.useState(
+    !!localStorage.getItem("accessToken")
+  );
 
-  {
-    path: "/registration",
-    element: <Registration />
-  },
+  return (
+    <BrowserRouter>
+      <App isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/login"
+            element={<LoginPage setIsLoggedIn={setIsLoggedIn} />}
+          />
+          <Route path="/registration" element={<RegistrationPage />} />
+          <Route path="/createrecipe" element={<CreateRecipe />} />
+          <Route path="/recipe/:id" element={<RecipePage />} />
+          <Route path="/savedrecipes" element={<SavedRecipes />} />
+        </Routes>
+      </App>
+    </BrowserRouter>
+  );
+}
 
-  {
-    path: "/createrecipe",
-    element: <CreateRecipe />
-  },
-
-  {
-    path: "/recipe",
-    element: <RecipePage />
-  },
-
-  {
-    path: "/savedrecipes",
-    element: <SavedRecipes />
-  },
-
-
-
-]);
-
-
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>,
+    <Main />
+  </StrictMode>
 );
-
-i18n
-  .use(initReactI18next)
-  .init({
-    resources: {
-      en: { translation: en },
-      de: { translation: de },
-    },
-    lng: 'en',
-    fallbackLng: 'en',
-
-    interpolation: {
-      escapeValue: false,
-    },
-  });
-

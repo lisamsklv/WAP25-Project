@@ -21,7 +21,7 @@ const recipes = [
 
 export default function SavedRecipes() {
   return (
-    <App>
+    <div>
       <h1 >Deine gespeicherte Rezepte</h1>
       <p>Hier findest du alle Rezepte, die du gespeichert hast.</p>
 
@@ -31,6 +31,6 @@ export default function SavedRecipes() {
         <RecipeCard key={r.id} recipe={r} />
       ))}
       </div>
-    </App>
+    </div>
   );
 }
