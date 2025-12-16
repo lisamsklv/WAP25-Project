@@ -1,100 +1,96 @@
-import { Button, Checkbox, Form, Input, List, Space, Typography } from 'antd';
-import { message } from "antd";
-import App from '../App';
-import { use } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Button, Checkbox, Form, Input, Space, Typography, message } from "antd";
+import App from "../App";
+import { useNavigate } from "react-router-dom";
 
-function LoginPage() {
-    const navigate = useNavigate();
-    const onFinish = async (values) => {
-        
-        const { username, password } = values;
+function LoginPage({ setIsLoggedIn }) {
+  const navigate = useNavigate();
 
-        const body = new URLSearchParams();
-        body.append("grant_type", "password");
-        body.append("username", username);
-        body.append("password", password);
-        body.append("client_id", "client");
+  const onFinish = async (values) => {
+    const { username, password } = values;
 
-        const response = await fetch("http://localhost:3000/api/token", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-            body,
-        });
+    const body = new URLSearchParams();
+    body.append("grant_type", "password");
+    body.append("username", username);
+    body.append("password", password);
+    body.append("client_id", "client");
 
-        const data = await response.json();
+    const response = await fetch("http://localhost:3000/api/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body,
+    });
 
-        if (!response.ok) {
-            message.error(data.error || "Login failed");
-            return;
-        }
+    const data = await response.json();
 
-        // Save OAuth tokens
-        localStorage.setItem("access_token", data.access_token);
-        localStorage.setItem("refresh_token", data.refresh_token);
+    if (!response.ok) {
+      message.error(data.error || "Login failed");
+      return;
+    }
 
-        message.success("Login successful!");
+    // Save OAuth tokens
+localStorage.setItem("accessToken", data.accessToken);
+localStorage.setItem("refreshToken", data.refreshToken);
 
-        // Redirect to saved recipes page
-        navigate("/savedrecipes");
-    };
-
-const onFinishFailed = (errorInfo) => {
-    console.log('failed:', errorInfo);
-};
+// Update navbar state
+setIsLoggedIn(true);
 
 
-    	return (
-            <App>
-		<div >
-            <Form
-                name="basic"
-                layout="vertical"
-                style={{ maxWidth: 400, margin: '0 auto' }}
-                initialValues={{ remember: true }}
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                autoComplete="off"
-            >
-                <Form.Item
-                label="Username"
-                name="username"
-                rules={[{ required: true, message: 'Please input your username!' }]}
-                >
-                <Input />
-                </Form.Item>
+    message.success("Login successful!");
 
-                <Form.Item
-                label="Password"
-                name="password"
-                rules={[{ required: true, message: 'Please input your password!' }]}
-                >
-                <Input.Password />
-                </Form.Item>
+    // Redirect to saved recipes page
+    navigate("/savedrecipes");
+  };
 
-                <Form.Item name="remember" valuePropName="checked" label={null}>
-                <Checkbox>Remember me</Checkbox>
-                </Form.Item>
+  const onFinishFailed = (errorInfo) => {
+    console.log("failed:", errorInfo);
+  };
 
-                <Form.Item label={null}>
-                    <Space>
-                    <Button type="primary" htmlType="submit">
-                        Login
-                    </Button>
-                    <Typography.Link href="./registration">already registered?</Typography.Link>
-                    </Space>
-                </Form.Item>
-                    
-                
+  return (
+    
+      <div>
+        <Form
+          name="basic"
+          layout="vertical"
+          style={{ maxWidth: 400, margin: "0 auto" }}
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+        >
+          <Form.Item
+            label="Username"
+            name="username"
+            rules={[{ required: true, message: "Please input your username!" }]}
+          >
+            <Input />
+          </Form.Item>
 
-            </Form>
-		</div>
-        </App>
-	);
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: "Please input your password!" }]}
+          >
+            <Input.Password />
+          </Form.Item>
+
+          <Form.Item name="remember" valuePropName="checked" label={null}>
+            <Checkbox>Remember me</Checkbox>
+          </Form.Item>
+
+          <Form.Item label={null}>
+            <Space>
+              <Button type="primary" htmlType="submit">
+                Login
+              </Button>
+              <Typography.Link href="./registration">already registered?</Typography.Link>
+            </Space>
+          </Form.Item>
+        </Form>
+      </div>
+    
+  );
 }
-
-
 
 export default LoginPage;

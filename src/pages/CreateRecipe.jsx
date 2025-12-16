@@ -26,12 +26,12 @@ function CreateRecipe() {
 
 
   return (
-    <App>
+    
       <div>
         <h2>Neues Rezept erstellen</h2>
         <RecipeForm onSubmit={handleSubmit} />
       </div>
-    </App>
+    
   );
 }
 

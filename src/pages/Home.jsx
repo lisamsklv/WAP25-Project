@@ -8,13 +8,9 @@ export default function Home() {
   useEffect(() => {
   const loadRecipes = async () => {
     try {
-      const token = localStorage.getItem("access_token");
+      const token = localStorage.getItem("accessToken");
 
-      const response = await fetch("http://localhost:3000/api/recipe", {
-        headers: {
-          "Authorization": `Bearer ${token}`
-        }
-      });
+      const response = await fetch("http://localhost:3000/api/recipe");
 
       if (!response.ok) {
         // don't try to parse JSON if unauthorized
@@ -33,7 +29,7 @@ export default function Home() {
 
 
   return (
-    <App>
+    <div>
       <h1>Willkommen in der Rezeptenwelt!</h1>
       <p>Hier kannst du deine Lieblingsrezepte speichern und teilen.</p>
 
@@ -50,6 +46,6 @@ export default function Home() {
           <RecipeCard key={r._id} recipe={r} />
         ))}
       </div>
-    </App>
+    </div>
   );
 }
