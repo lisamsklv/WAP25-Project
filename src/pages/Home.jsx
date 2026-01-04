@@ -1,51 +1,32 @@
-import { useEffect, useState } from "react";
-import RecipeCard from "../components/RecipeCard";
-import App from "../App.jsx";
+import { useParams } from "react-router-dom";
+import RecipeList from "../components/RecipeList.jsx";
 
 export default function Home() {
-  const [recipes, setRecipes] = useState([]);
+  const { category } = useParams();
 
-  useEffect(() => {
-  const loadRecipes = async () => {
-    try {
-      const token = localStorage.getItem("accessToken");
-
-      const response = await fetch("http://localhost:3000/api/recipe");
-
-      if (!response.ok) {
-        // don't try to parse JSON if unauthorized
-        throw new Error(`HTTP ${response.status}`);
-      }
-
-      const data = await response.json();
-      setRecipes(data);
-    } catch (err) {
-      console.error("Failed to load recipes:", err);
-    }
-  };
-
-  loadRecipes();
-}, []);
-
+  const categoryLabels = {
+  vegan: "Vegane Rezepte",
+  vegetarian: "Vegetarische Rezepte",
+  meat: "Fleischrezepte",
+  breakfast: "Frühstücksrezepte",
+  lunch: "Mittagessenrezepte",
+  dinner: "Abendessenrezepte",
+  dessert: "Dessertrezepte",
+  snack: "Snackrezepte",
+  salad: "Salatrezepte",
+  drink: "Getränke",
+  all: "Alle Rezepte"
+};
 
   return (
     <div>
-      <h1>Willkommen in der Rezeptenwelt!</h1>
-      <p>Hier kannst du deine Lieblingsrezepte speichern und teilen.</p>
+      <h1>
+        Willkommen in der Rezeptenwelt!
+      </h1>
 
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "20px",
-        }}
-      >
-        {recipes.map((r) => (
-          <RecipeCard key={r._id} recipe={r} />
-        ))}
-      </div>
+      <h2>{categoryLabels[category] || category}</h2>
+
+      <RecipeList category={category} />
     </div>
   );
 }

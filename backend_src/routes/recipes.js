@@ -37,6 +37,25 @@ router.get('/recipe/:id', async (req, res) => {
   }
 });
 
+router.get('/recipe/category/:category', async (req, res) => {
+  try {
+    const db = req.app.get('db');
+    const category = req.params.category;
+
+    const recipes = await db.collection('recipes')
+      .find({ category: category })
+      .toArray();
+
+    if (recipes.length > 0) {
+      res.json(recipes);
+    } else {
+      res.status(404).json({ message: 'No recipes found' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send();
+  }
+});
 
 //=================================
 //              post

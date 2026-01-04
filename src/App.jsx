@@ -4,12 +4,14 @@ import { Layout, Menu, Input, Dropdown, Space, Typography } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useNavigate, useParams } from "react-router-dom";
 
 const { Header, Content, Footer } = Layout;
 
 export default function App({ children }) {
   const { t } = useTranslation();
   const location = useLocation();
+  const navigate = useNavigate();
 
   // simple auth state (replace with real token check later)
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -32,18 +34,22 @@ export default function App({ children }) {
       : { key: "/login", label: <Link to="/login">{t("Login")}</Link> },
   ];
 
+const { category } = useParams();
   const categoryItems = [
-    { key: "1", label: "Vegan" },
-    { key: "2", label: "Vegetarisch" },
-    { key: "3", label: "Fleisch" },
-    { key: "4", label: "Frühstück" },
-    { key: "5", label: "Mittagessen" },
-    { key: "6", label: "Abendessen" },
-    { key: "7", label: "Dessert" },
-    { key: "8", label: "Snack" },
-    { key: "9", label: "Beilage" },
-    { key: "10", label: "Getränk" },
+    { key: "all", label: "Alle" },
+    { key: "vegan", label: "Vegan" },
+    { key: "vegetarian", label: "Vegetarisch" },
+    { key: "meat", label: "Fleisch" },
+    { key: "breakfast", label: "Frühstück" },
+    { key: "lunch", label: "Mittagessen" },
+    { key: "dinner", label: "Abendessen" },
+    { key: "dessert", label: "Dessert" },
+    { key: "snack", label: "Snack" },
+    { key: "salad", label: "Salat" },
+    { key: "drink", label: "Getränk" },
   ];
+
+
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -64,7 +70,7 @@ export default function App({ children }) {
         />
 
         {/* Only show search + categories on home page */}
-        {location.pathname === "/" && (
+        {location.pathname.startsWith("/category") || location.pathname === "/" ? (
           <>
             <Input.Search
               placeholder="Rezepte suchen"
@@ -74,7 +80,12 @@ export default function App({ children }) {
             />
             <div style={{ marginLeft: 20 }}>
               <Dropdown
-                menu={{ items: categoryItems, selectable: true, defaultSelectedKeys: ["1"] }}
+                menu={{
+                  items: categoryItems,
+                  selectable: true,
+                  selectedKeys: [category],
+                  onClick: (info) => navigate("/category/" + info.key)
+                }}
               >
                 <Typography.Link>
                   <Space>
@@ -85,7 +96,7 @@ export default function App({ children }) {
               </Dropdown>
             </div>
           </>
-        )}
+        ) : null}
       </Header>
 
       <Content style={{ padding: "40px 20px", textAlign: "center" }}>

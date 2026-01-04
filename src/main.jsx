@@ -11,7 +11,7 @@ import CreateRecipe from "./pages/CreateRecipe.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import RecipePage from "./pages/RecipePage.jsx";
 import SavedRecipes from "./pages/SavedRecipes.jsx";
-import RegistrationPage from "./pages/RegistrationPage.jsx";
+import RegistrationPage from "./pages/RegistrationPage.jsx"
 
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
@@ -47,6 +47,7 @@ function Main() {
           <Route path="/createrecipe" element={<CreateRecipe />} />
           <Route path="/recipe/:id" element={<RecipePage />} />
           <Route path="/savedrecipes" element={<SavedRecipes />} />
+          <Route path="/category/:category" element={<Home />} />
         </Routes>
       </App>
     </BrowserRouter>
