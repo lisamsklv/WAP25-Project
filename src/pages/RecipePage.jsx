@@ -9,6 +9,21 @@ export default function RecipePage() {
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const { category } = useParams();
+
+  const categoryLabels = {
+  vegan: "Vegan",
+  vegetarian: "Vegetarisch",
+  meat: "Fleisch",
+  breakfast: "Frühstück",
+  lunch: "Mittagessen",
+  dinner: "Abendessen",
+  dessert: "Dessert",
+  snack: "Snack",
+  salad: "Salat",
+  drink: "Getränk",
+  };
+
   useEffect(() => {
     const loadRecipe = async () => {
       try {
@@ -34,7 +49,7 @@ export default function RecipePage() {
     <Layout style={{ textAlign: "left" }}>
       <Title level={2}>{recipe.title}</Title>
       <Paragraph>
-        {recipe.category} · {recipe.description}
+        {categoryLabels[recipe.category] } · {recipe.description}
       </Paragraph>
 
       <Divider />
