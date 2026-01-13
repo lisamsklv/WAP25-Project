@@ -18,9 +18,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
+    "lint": "cd ./src/ && eslint .",
     "preview": "vite preview",
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "lint_dev": "cd ./backend_src && eslint ."
   },
   "dependencies": {
     "@ant-design/colors": "^7.2.1",
