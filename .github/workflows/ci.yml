@@ -1,0 +1,36 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-and-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Lint
+        run: |
+          npm run lint
+          npm run lint_dev
+    
+      - name: Run Backend Start Test
+        # Startet den Server für 10 Sekunden. 
+        # Geht er wegen falscher DB-Daten sofort aus, schlägt der CI-Check fehl.
+        run: timeout 10s node app.js || [ $? -eq 124 ]
+        env:
+          MONGODB_CONNECTION_STRING: ${{ secrets.MONGODB_CONNECTION_STRING }}
