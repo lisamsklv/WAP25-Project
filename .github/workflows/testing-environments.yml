@@ -1,0 +1,19 @@
+name: Testing environments
+
+on:
+  push
+
+env:
+  A: per workflow
+
+jobs:
+  logging_job:
+    runs-on: ubuntu-latest
+    env:
+      B: per job
+    steps:
+      - name: "Log environment vars"
+        env:
+          C: per step
+        run: |
+          echo "environments can be set $A, $B and $C"

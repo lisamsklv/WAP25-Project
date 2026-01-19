@@ -1,0 +1,22 @@
+name: Sequential jobs
+
+on:
+  push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Building project"
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Testing project"
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploying project"
