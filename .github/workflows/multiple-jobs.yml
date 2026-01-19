@@ -1,0 +1,15 @@
+name: Multiple jobs
+
+on:
+  push
+
+jobs:
+  test-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Testing on Linux"
+
+  test-windows:
+    runs-on: windows-latest
+    steps:
+      - run: echo "Testing on Windows"
