@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+// import bcrypt from 'bcrypt';
 
 
 const client = {
@@ -9,9 +9,9 @@ const client = {
 
 export default function oAuthModel(db) {
   return {
-    getClient(clientId, clientSecret) {
-      return client; // we do not handle multiple clients, thus we always return the hardcoded one
-    },
+    // getClient(clientId, clientSecret) {
+    //   return client; // we do not handle multiple clients, thus we always return the hardcoded one
+    // },
     async getAccessToken(accessToken) {
       const token = await db.collection('token').findOne({ accessToken });
       if (token) {
@@ -32,9 +32,9 @@ export default function oAuthModel(db) {
     // TODO: we should hash the password!!!!!
     async getUser(username, password) {
       const user = await db.collection('user_auth').findOne({ username });
-        if (user && user.password === password) {
-          return user;
-        }
+      if (user && user.password === password) {
+        return user;
+      }
       // if (user) {
       //   const passwordsMatch = await bcrypt.compare(password, user.password);
       //   if (passwordsMatch) 
@@ -53,7 +53,7 @@ export default function oAuthModel(db) {
         refreshTokenExpiresAt: token.refreshTokenExpiresAt,
         client: { id: client.id },
         user: { id: user._id },
-        user_id: user._id
+        user_id: user._id,
       };
 
       await db.collection('token').insertOne(tokenData);
@@ -62,6 +62,6 @@ export default function oAuthModel(db) {
     async revokeToken(token) {
       const deleted = await db.collection('token').deleteOne({ refreshToken: token.refreshToken });
       return deleted.deletedCount === 1;
-    }
+    },
   };
 }

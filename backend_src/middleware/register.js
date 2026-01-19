@@ -56,7 +56,7 @@ router.put('/:token', async (req, res) => {
       if (insertion.acknowledged) {
         const updated = await db.collection('user_auth').updateOne({ _id: token.user_id }, { $set: {
           password: await bcrypt.hash(req.body.password, 10),
-          user_id: insertion.insertedId
+          user_id: insertion.insertedId,
         } });
         if (updated.modifiedCount === 1) {
           await db.collection('token').deleteOne({ emailToken: req.params.token });
