@@ -8,6 +8,11 @@ const client = {
 
 export default function oAuthModel(db) {
   return {
+
+    getClient(){
+      return client;
+    },
+
     async getAccessToken(accessToken) {
       const token = await db.collection('token').findOne({ accessToken });
       if (token) {

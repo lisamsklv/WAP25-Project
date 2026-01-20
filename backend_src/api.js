@@ -5,6 +5,11 @@ import { ObjectId } from 'mongodb';
 
 const router = express.Router();
 
+
+router.use('/', usersRouter);
+router.use('/', recipesRouter);
+
+
 /**
  * Middleware: Prüft, ob der User eingeloggt ist und in seinem 
  * Profil (Collection 'user') das Flag { permissions: { write: true } } hat.
@@ -33,7 +38,6 @@ export async function writeAccess(req, res, next) {
   }
 }
 
-router.use('/', usersRouter);
-router.use('/', recipesRouter);
+
 
 export default router;

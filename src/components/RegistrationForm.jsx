@@ -41,9 +41,9 @@ export default function RegistrationForm({ onSubmit, initialValues }) {
       </Form.Item>
 
       <Form.Item
-        label="Username"
-        name="username"
-        rules={[{ required: true, message: 'Bitte Username eingeben' }]}
+        label="Email"
+        name="email"
+        rules={[{ required: true, message: 'Bitte Email eingeben' }]}
       >
         <Input />
       </Form.Item>
