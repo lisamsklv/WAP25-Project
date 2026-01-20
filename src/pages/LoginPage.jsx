@@ -40,7 +40,7 @@ setIsLoggedIn(true);
     message.success("Login successful!");
 
     // Redirect to saved recipes page
-    navigate("/savedrecipes");
+    navigate("/");
   };
 
   const onFinishFailed = (errorInfo) => {

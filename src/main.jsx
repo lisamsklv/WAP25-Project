@@ -11,7 +11,8 @@ import CreateRecipe from "./pages/CreateRecipe.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import RecipePage from "./pages/RecipePage.jsx";
 import SavedRecipes from "./pages/SavedRecipes.jsx";
-import RegistrationPage from "./pages/RegistrationPage.jsx"
+import RegistrationPage from "./pages/RegistrationPage.jsx";
+import ActivationPage from "./pages/ActivationPage.jsx";
 
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
@@ -44,6 +45,7 @@ function Main() {
             element={<LoginPage setIsLoggedIn={setIsLoggedIn} />}
           />
           <Route path="/registration" element={<RegistrationPage />} />
+          <Route path="/activate/:token" element={<ActivationPage />} />
           <Route path="/createrecipe" element={<CreateRecipe />} />
           <Route path="/recipe/:id" element={<RecipePage />} />
           <Route path="/savedrecipes" element={<SavedRecipes />} />

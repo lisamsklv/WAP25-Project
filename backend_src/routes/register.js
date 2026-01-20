@@ -34,7 +34,8 @@ router.post('/', async (req, res) => {
       });
 
       console.log(`Activation link: http://localhost:5173/activate/${token}`); // Port 5173 ist Standard für Vite/React
-      res.status(201).send();
+      //res.status(201).send(); dein code
+      res.status(201).json({ token });
     }
   } catch(err) {
     console.error(err);
