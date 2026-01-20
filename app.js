@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { MongoClient } from 'mongodb';
 import OAuthServer from 'express-oauth-server';
-import register from './backend_src/middleware/register.js';
+import register from './backend_src/routes/register.js';
 import oAuthModel from './backend_src/middleware/oAuthModel.js';
 import 'dotenv/config';
 import cors from "cors";
@@ -54,11 +54,6 @@ try {
   //app.use('/api', oauth.authenticate(), api); // use oauth authentication middleware on any resource that should be protected
   app.use('/api', oauth.authenticate({ passthrough: true}), api);
 
-
-  // 4. STATISCHE DATEIEN (für späteres Deployment)
-  
-  // const __dirname = path.dirname(fileURLToPath(import.meta.url));
-  // app.use(express.static(path.join(__dirname, 'dist')));
 
 
 // ===========================================

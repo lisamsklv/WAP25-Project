@@ -22,6 +22,27 @@ router.get('/recipe/:id', async (req, res) => {
     const recipe = await db.collection('recipes').findOne({ _id: new ObjectId(req.params.id) });
     recipe ? res.json(recipe) : res.status(404).send();
   } catch (err) {
+    console.error(err);
+    res.status(500).send();
+  }
+});
+
+router.get('/recipe/category/:category', async (req, res) => {
+  try {
+    const db = req.app.get('db');
+    const category = req.params.category;
+
+    const recipes = await db.collection('recipes')
+      .find({ category: category })
+      .toArray();
+
+    if (recipes.length > 0) {
+      res.json(recipes);
+    } else {
+      res.status(404).json({ message: 'No recipes found' });
+    }
+  } catch (err) {
+    console.error(err);
     res.status(500).send();
   }
 });
@@ -30,15 +51,22 @@ router.get('/recipe/:id', async (req, res) => {
 router.post('/recipe', writeAccess, async (req, res) => {
   try {
     const db = req.app.get('db');
-    const newRecipe = {
-      ...req.body,
-      author: res.locals.user.first_name, // Name des Erstellers mitspeichern
-      createdAt: new Date(),
-    };
-    const result = await db.collection('recipes').insertOne(newRecipe);
-    const created = await db.collection('recipes').findOne({ _id: result.insertedId });
-    res.status(201).json(created);
-  } catch (err) {
+    console.log(JSON.stringify(req.body, null, '\n'));
+    const insertion = await db.collection('recipes').insertOne(req.body);
+    if (insertion.acknowledged) {
+      const recipe = await db.collection('recipes')
+        .findOne({ _id: insertion.insertedId });
+
+      if (recipe) {
+        res.status(201).json(recipe);
+      } else {
+        res.status(404).send();
+      }
+    } else {
+      res.status(500).send();
+    }
+  } catch(err) {
+    console.error(err);
     res.status(500).send();
   }
 });
@@ -50,10 +78,10 @@ router.put('/recipe/:id', writeAccess, async (req, res) => {
     const updateData = { ...req.body };
     delete updateData._id;
 
-    const result = await db.collection('recipes')
+    const updated = await db.collection('recipes')
       .updateOne({ _id: new ObjectId(req.params.id) }, { $set: updateData });
 
-    if (result.matchedCount === 1) {
+    if (updated.modifiedCount === 1) {
       const recipe = await db.collection('recipes').findOne({ _id: new ObjectId(req.params.id) });
       res.json(recipe);
     } else {
