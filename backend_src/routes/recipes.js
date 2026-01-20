@@ -47,50 +47,121 @@ router.get('/recipe/category/:category', async (req, res) => {
   }
 });
 
-// post with write access
+// // post with write access
+// router.post('/recipe', writeAccess, async (req, res) => {
+//   try {
+//     const db = req.app.get('db');
+//     console.log(JSON.stringify(req.body, null, '\n'));
+//     const insertion = await db.collection('recipes').insertOne(req.body);
+//     if (insertion.acknowledged) {
+//       const recipe = await db.collection('recipes')
+//         .findOne({ _id: insertion.insertedId });
+
+//       if (recipe) {
+//         res.status(201).json(recipe);
+//       } else {
+//         res.status(404).send();
+//       }
+//     } else {
+//       res.status(500).send();
+//     }
+//   } catch(err) {
+//     console.error(err);
+//     res.status(500).send();
+//   }
+// });
+
+
 router.post('/recipe', writeAccess, async (req, res) => {
   try {
     const db = req.app.get('db');
-    console.log(JSON.stringify(req.body, null, '\n'));
-    const insertion = await db.collection('recipes').insertOne(req.body);
-    if (insertion.acknowledged) {
-      const recipe = await db.collection('recipes')
-        .findOne({ _id: insertion.insertedId });
+    const user = res.locals.user; // kommt aus writeAccess
 
-      if (recipe) {
-        res.status(201).json(recipe);
-      } else {
-        res.status(404).send();
-      }
-    } else {
-      res.status(500).send();
+    const recipe = {
+      title: req.body.title,
+      ingredients: req.body.ingredients,
+      description: req.body.description,
+      instructions: req.body.instructions,
+      category: req.body.category,
+
+      authorId: user._id,
+      authorName: `${user.first_name} ${user.last_name}`,
+
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    const insertion = await db.collection('recipes').insertOne(recipe);
+
+    res.status(201).json({
+      ...recipe,
+      _id: insertion.insertedId,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Recipe creation failed' });
+  }
+});
+
+
+// // put with write access
+// router.put('/recipe/:id', writeAccess, async (req, res) => {
+//   try {
+//     const db = req.app.get('db');
+//     const updateData = { ...req.body };
+//     delete updateData._id;
+
+//     const updated = await db.collection('recipes')
+//       .updateOne({ _id: new ObjectId(req.params.id) }, { $set: updateData });
+
+//     if (updated.modifiedCount === 1) {
+//       const recipe = await db.collection('recipes').findOne({ _id: new ObjectId(req.params.id) });
+//       res.json(recipe);
+//     } else {
+//       res.status(404).send();
+//     }
+//   } catch (err) {
+//     res.status(500).send();
+//   }
+// });
+
+
+router.put('/recipe/:id', writeAccess, async (req, res) => {
+  try {
+    const db = req.app.get('db');
+    const user = res.locals.user;
+    const recipeId = new ObjectId(req.params.id);
+
+    const recipe = await db.collection('recipes').findOne({ _id: recipeId });
+    if (!recipe) {
+      return res.status(404).json({ error: 'Recipe not found' });
     }
-  } catch(err) {
+
+    if (!recipe.authorId.equals(user._id)) {
+      return res.status(403).json({ error: 'Nicht dein Rezept' });
+    }
+
+    const updateData = {
+      title: req.body.title,
+      ingredients: req.body.ingredients,
+      description: req.body.description,
+      instructions: req.body.instructions,
+      category: req.body.category,
+      updatedAt: new Date(),
+    };
+
+    await db.collection('recipes').updateOne(
+      { _id: recipeId },
+      { $set: updateData },
+    );
+
+    res.json({ ...recipe, ...updateData });
+  } catch (err) {
     console.error(err);
     res.status(500).send();
   }
 });
 
-// put with write access
-router.put('/recipe/:id', writeAccess, async (req, res) => {
-  try {
-    const db = req.app.get('db');
-    const updateData = { ...req.body };
-    delete updateData._id;
-
-    const updated = await db.collection('recipes')
-      .updateOne({ _id: new ObjectId(req.params.id) }, { $set: updateData });
-
-    if (updated.modifiedCount === 1) {
-      const recipe = await db.collection('recipes').findOne({ _id: new ObjectId(req.params.id) });
-      res.json(recipe);
-    } else {
-      res.status(404).send();
-    }
-  } catch (err) {
-    res.status(500).send();
-  }
-});
 
 // delete with write access
 router.delete('/recipe/:id', writeAccess, async (req, res) => {

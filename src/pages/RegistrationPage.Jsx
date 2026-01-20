@@ -6,7 +6,7 @@ export default function RegisterPage() {
   const navigate = useNavigate();
 
   async function handleRegister(values) {
-    const res = await fetch("http://localhost:3000/register", {
+    const res = await fetch("http://localhost:3000/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values)

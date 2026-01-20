@@ -49,11 +49,18 @@ try {
 
 
 // login
-  app.use('/api/token', oauth.token({ requireClientAuthentication: { password: false, refresh_token: false } })); // use oauth token middleware
-  app.use('/api/register', register); // handle user registration
-  //app.use('/api', oauth.authenticate(), api); // use oauth authentication middleware on any resource that should be protected
-  app.use('/api', api); //sieht man immer
-  //app.use('/api', oauth.authenticate({ passthrough: true }), api);
+  // app.use('/api/token', oauth.token({ requireClientAuthentication: { password: false, refresh_token: false } })); // use oauth token middleware
+  // app.use('/api/register', register); // handle user registration
+  // app.use('/api', oauth.authenticate(), api); // use oauth authentication middleware on any resource that should be protected
+  // app.use('/api', api); //sieht man immer
+  // app.use('/api', oauth.authenticate({ passthrough: true }), api);
+
+app.oauth = oauth; // wichtig für Router-Zugriff
+
+app.use('/api/token', oauth.token({ requireClientAuthentication: { password: false, refresh_token: false } }));
+app.use('/api/register', register);
+app.use('/api', oauth.authenticate(), api); // protects /api routes
+
 
 
 

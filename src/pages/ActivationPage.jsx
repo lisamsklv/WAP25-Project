@@ -15,7 +15,7 @@ export default function ActivationPage() {
   };
 
   async function handleActivation(values) {
-    const res = await fetch(`http://localhost:3000/register/${token}`, {
+    const res = await fetch(`http://localhost:3000/api/register/${token}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values)
