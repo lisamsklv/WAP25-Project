@@ -7,7 +7,7 @@ function CreateRecipe() {
   const handleSubmit = async (values) => {
 
     console.log(values);
-  const accessToken = localStorage.getItem("access_token");
+  const accessToken = localStorage.getItem("accessToken");
 
   const response = await fetch("http://localhost:3000/api/recipe", {
     method: "POST",
