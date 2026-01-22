@@ -38,16 +38,48 @@ router.use('/', recipesRouter);
 //   }
 // }
 
+// export async function writeAccess(req, res, next) {
+//   const db = req.app.get('db');
+//   const token = res.locals?.oauth?.token;
+//   if (!token?.user_id) return res.status(401).json({ error: 'Nicht angemeldet' });
+
+//   const user = await db.collection('user').findOne({ _id: new ObjectId(token.user_id) });
+//   if (!user) return res.status(401).json({ error: 'Nicht angemeldet' });
+//   if (!user.permissions?.write) return res.status(403).json({ error: 'Keine Schreibrechte' });
+
+//   res.locals.user = user; // store for later use
+//   next();
+// }
+
 export async function writeAccess(req, res, next) {
   const db = req.app.get('db');
-  const token = res.locals?.oauth?.token;
-  if (!token?.user_id) return res.status(401).json({ error: 'Nicht angemeldet' });
 
-  const user = await db.collection('user').findOne({ _id: new ObjectId(token.user_id) });
-  if (!user) return res.status(401).json({ error: 'Nicht angemeldet' });
-  if (!user.permissions?.write) return res.status(403).json({ error: 'Keine Schreibrechte' });
+  // Token aus Header lesen
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Nicht angemeldet" });
+  }
 
-  res.locals.user = user; // store for later use
+  const accessToken = authHeader.split(" ")[1];
+
+  // Token in DB suchen
+  const tokenDoc = await db.collection("token").findOne({ accessToken });
+  if (!tokenDoc) {
+    return res.status(401).json({ error: "Token ungültig oder abgelaufen" });
+  }
+
+  // User-Profil laden (Achtung: user_id, nicht user._id)
+  const user = await db.collection("user").findOne({ _id: tokenDoc.user_id });
+  if (!user) {
+    return res.status(401).json({ error: "User nicht gefunden" });
+  }
+
+  // Schreibrechte prüfen
+  if (!user.permissions?.write) {
+    return res.status(403).json({ error: "Keine Schreibrechte" });
+  }
+
+  res.locals.user = user;
   next();
 }
 

@@ -1,8 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import React, { useState, useEffect } from "react";
-
+import React from "react";
 
 import "./index.css";
 import App from "./App.jsx";
@@ -30,28 +29,28 @@ i18n.use(initReactI18next).init({
 });
 
 function Main() {
-  // put auth state here so App + LoginPage can share it
   const [isLoggedIn, setIsLoggedIn] = React.useState(
     !!localStorage.getItem("accessToken")
   );
 
   return (
     <BrowserRouter>
-      <App isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route
-            path="/login"
-            element={<LoginPage setIsLoggedIn={setIsLoggedIn} />}
-          />
-          <Route path="/registration" element={<RegistrationPage />} />
-          <Route path="/activate/:token" element={<ActivationPage />} />
-          <Route path="/createrecipe" element={<CreateRecipe />} />
-          <Route path="/recipe/:id" element={<RecipePage />} />
-          <Route path="/savedrecipes" element={<SavedRecipes />} />
-          <Route path="/category/:category" element={<Home />} />
-        </Routes>
-      </App>
+      <Routes>
+        {/* App ist jetzt ein Layout-Wrapper */}
+        <Route
+          path="/"
+          element={<App isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}
+        >
+          <Route index element={<Home />} />
+          <Route path="login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="registration" element={<RegistrationPage />} />
+          <Route path="activate/:token" element={<ActivationPage />} />
+          <Route path="createrecipe" element={<CreateRecipe />} />
+          <Route path="recipe/:id" element={<RecipePage />} />
+          <Route path="savedrecipes" element={<SavedRecipes />} />
+          <Route path="category/:category" element={<Home />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 }

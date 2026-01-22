@@ -59,7 +59,8 @@ app.oauth = oauth; // wichtig für Router-Zugriff
 
 app.use('/api/token', oauth.token({ requireClientAuthentication: { password: false, refresh_token: false } }));
 app.use('/api/register', register);
-app.use('/api', oauth.authenticate(), api); // protects /api routes
+//app.use('/api', oauth.authenticate(), api); // protects /api routes
+app.use('/api', api); // öffentlich
 
 
 

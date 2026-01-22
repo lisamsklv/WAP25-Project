@@ -29,9 +29,11 @@ function LoginPage({ setIsLoggedIn }) {
       return;
     }
 
+    console.log("TOKEN RESPONSE:", data);
+
     // Save OAuth tokens
-localStorage.setItem("accessToken", data.accessToken);
-localStorage.setItem("refreshToken", data.refreshToken);
+localStorage.setItem("accessToken", data.access_token);
+localStorage.setItem("refreshToken", data.refresh_token);
 
 // Update navbar state
 setIsLoggedIn(true);
