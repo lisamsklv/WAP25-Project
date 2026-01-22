@@ -47,6 +47,28 @@ router.get('/recipe/category/:category', async (req, res) => {
   }
 });
 
+router.get('/recipe/search', async (req, res) => {
+  try {
+    const db = req.app.get('db');
+    const q = req.query.q;
+
+    if (!q || q.trim() === "") {
+      return res.json([]);
+    }
+
+    const recipes = await db.collection('recipes')
+      .find({
+        title: { $regex: q, $options: "i" } // case‑insensitive
+      })
+      .toArray();
+
+    res.json(recipes);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send();
+  }
+});
+
 // // post with write access
 // router.post('/recipe', writeAccess, async (req, res) => {
 //   try {
