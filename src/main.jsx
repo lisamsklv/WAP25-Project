@@ -56,6 +56,8 @@ function Main() {
   );
 }
 
+export default Main;
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Main />

@@ -25,8 +25,10 @@ function LoginPage({ setIsLoggedIn }) {
 
     let data = {};
     try {
-      data = await response.json();
-    } catch (e) {}
+  data = await response.json();
+} catch (e) {
+  console.error("JSON parse failed:", e);
+}
 
     if (!response.ok) {
       setErrorMessage("Email or password is incorrect.");
