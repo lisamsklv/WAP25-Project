@@ -64,12 +64,12 @@ export default function App({ isLoggedIn, setIsLoggedIn }) {
 
         {(location.pathname.startsWith("/category") || location.pathname === "/") && (
           <>
-            <Input.Search
+            {/* <Input.Search
               placeholder="Rezepte suchen"
               onSearch={(value) => console.log("Search:", value)}
               style={{ width: 200 }}
               allowClear
-            />
+            /> */}
             <div style={{ marginLeft: 20 }}>
               <Dropdown
                 menu={{
