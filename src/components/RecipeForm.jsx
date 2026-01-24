@@ -83,7 +83,7 @@ export default function RecipeForm({ onSubmit, initialValues }) {
           <Select.Option value="dinner">Abendessen</Select.Option>
           <Select.Option value="dessert">Dessert</Select.Option>
           <Select.Option value="snack">Snack</Select.Option>
-          <Select.Option value="salad"></Select.Option>
+          <Select.Option value="salad">Salat</Select.Option>
           <Select.Option value="drink">Getränk</Select.Option>
         </Select>
       </Form.Item>

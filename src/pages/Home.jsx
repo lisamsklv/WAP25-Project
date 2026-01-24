@@ -3,6 +3,7 @@ import RecipeList from "../components/RecipeList.jsx";
 
 export default function Home() {
   const { category } = useParams();
+  const { query } = useParams();
 
   const categoryLabels = {
   vegan: "Vegane Rezepte",
@@ -26,7 +27,7 @@ export default function Home() {
 
       <h2>{categoryLabels[category] || category}</h2>
 
-      <RecipeList category={category} />
+      <RecipeList category={category} search={query} />
     </div>
   );
 }
