@@ -1,5 +1,5 @@
-import { Form, Input, Button, Select, Space } from "antd";
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { Form, Input, Button, Select, Space, Upload } from "antd";
+import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from "@ant-design/icons";
 
 export default function RecipeForm({ onSubmit, initialValues }) {
   const [form] = Form.useForm();
@@ -87,11 +87,6 @@ export default function RecipeForm({ onSubmit, initialValues }) {
           <Select.Option value="drink">Getränk</Select.Option>
         </Select>
       </Form.Item>
-
-      {/* Eventuell später mal Bilder unterstützen
-      <Form.Item label="Bild" name="image" rules={[{ required: true, message: "Bitte Bild-URL eingeben" }]}>
-        <Input placeholder="Bild-URL" />
-      </Form.Item> */}
 
       <Button type="primary" htmlType="submit">
         Speichern

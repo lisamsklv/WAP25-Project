@@ -24,21 +24,7 @@ export default function RegistrationForm({ onSubmit, initialValues }) {
       onFinish={onFinish}
       initialValues={initialValues}
     >
-      {/* <Form.Item
-        label="Email"
-        name="email"
-        rules={[{ required: true, message: 'Bitte Email eingeben' }, { type: 'email', message: 'Bitte gültige Email eingeben' }]}
-      >
-        <Input />
-      </Form.Item> */}
 
-      {/* <Form.Item
-        label="Vorname"
-        name="first_name"
-        rules={[{ required: true, message: 'Bitte Vorname eingeben' }]}
-      >
-        <Input />
-      </Form.Item> */}
 
       <Form.Item
         label="Email"
@@ -47,25 +33,6 @@ export default function RegistrationForm({ onSubmit, initialValues }) {
       >
         <Input />
       </Form.Item>
-
-      {/* <Form.Item
-        label="Passwort"
-        name="password"
-        rules={[{ required: true, message: 'Bitte Passwort eingeben' }, { min: 6, message: 'Passwort muss mindestens 6 Zeichen lang sein' }]}
-        hasFeedback
-      >
-        <Input.Password />
-      </Form.Item> */}
-
-      {/* <Form.Item
-        label="Passwort bestätigen"
-        name="passwordConfirm"
-        dependencies={["password"]}
-        rules={[{ required: true, message: 'Bitte Passwort bestätigen' }, { validator: validatePasswords }]}
-        hasFeedback
-      >
-        <Input.Password />
-      </Form.Item> */}
 
       <Form.Item>
         <Space>

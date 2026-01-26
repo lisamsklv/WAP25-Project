@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <div>
       <h1>
-        Willkommen in der Rezeptenwelt!
+        Willkommen in der Rezeptewelt!
       </h1>
 
       <h2>{categoryLabels[category] || category}</h2>

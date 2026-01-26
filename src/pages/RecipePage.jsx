@@ -9,7 +9,6 @@ export default function RecipePage() {
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // const { category } = useParams();
 
   const categoryLabels = {
   vegan: "Vegan",

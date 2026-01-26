@@ -17,4 +17,5 @@ export default function RecipeCard({ recipe }) {
     </Card>
     </Link>
   );
+  
 }

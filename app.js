@@ -20,8 +20,10 @@ app.use(cors({
     credentials: true
 }));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false })); // in OAuth2 standard, credentials are sent as "application/x-www-form-urlencoded", this middleware allows parsing it
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false })); // in OAuth2 standard, credentials are sent as "application/x-www-form-urlencoded", this middleware allows parsing it
+app.use(express.json({ limit: '10mb' })); // Erlaubt größere JSON-Pakete (Bilder)
+app.use(express.urlencoded({ limit: '10mb', extended: false }));
 
 try {
   // Datenbank-Verbindung
