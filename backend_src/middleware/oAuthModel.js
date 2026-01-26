@@ -25,20 +25,20 @@ export default function oAuthModel(db) {
     },
 
     async getUser(username, password) {
-  const authUser = await db.collection('user_auth').findOne({ username });
-  if (!authUser) return null;
+      const authUser = await db.collection('user_auth').findOne({ username });
+      if (!authUser) return null;
 
-  const match = await bcrypt.compare(password, authUser.password);
-  if (!match) return null;
+      const match = await bcrypt.compare(password, authUser.password);
+      if (!match) return null;
 
-  const profile = await db.collection('user').findOne({ _id: authUser.user_id });
+      const profile = await db.collection('user').findOne({ _id: authUser.user_id });
 
-  return {
-    ...profile,
-    auth_id: authUser._id,
-    user_id: profile._id
-  };
-},
+      return {
+        ...profile,
+        auth_id: authUser._id,
+        user_id: profile._id,
+      };
+    },
 
     async saveToken(token, client, user) {
       // store both access and refresh tokens in ONE document
