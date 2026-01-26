@@ -9,6 +9,12 @@ const router = express.Router();
 router.post('/', async (req, res) => {
   try {
     const db = req.app.get('db');
+    const { email } = req.body;
+
+    const existingUser = await db.collection('user_auth').findOne({ username: email });
+    if (existingUser) {
+      return res.status(400).json({ error: 'Diese E-Mail ist bereits registriert.' });
+    }
     // Erstelle einen vorläufigen Eintrag in user_auth
     const insertion = await db.collection('user_auth').insertOne({ 
       username: req.body.email, 

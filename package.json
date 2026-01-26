@@ -21,7 +21,9 @@
     "lint": "cd ./src/ && eslint .",
     "preview": "vite preview",
     "start": "nodemon app.js",
-    "lint_dev": "cd ./backend_src && eslint ."
+    "lint_dev": "cd ./backend_src && eslint .",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+
   },
   "dependencies": {
     "@ant-design/colors": "^7.2.1",
@@ -56,6 +58,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.5.0",
+    "jest": "^30.2.0",
     "nodemon": "^3.1.10",
     "vite": "^7.1.7"
   }

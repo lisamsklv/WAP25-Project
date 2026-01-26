@@ -52,13 +52,13 @@ router.get('/recipe/search', async (req, res) => {
     const db = req.app.get('db');
     const q = req.query.q;
 
-    if (!q || q.trim() === "") {
+    if (!q || q.trim() === '') {
       return res.json([]);
     }
 
     const recipes = await db.collection('recipes')
       .find({
-        title: { $regex: q, $options: "i" } // case‑insensitive
+        title: { $regex: q, $options: 'i' }, // case‑insensitive
       })
       .toArray();
 
