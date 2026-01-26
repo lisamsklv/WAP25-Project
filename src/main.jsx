@@ -49,7 +49,7 @@ function Main() {
           <Route path="recipe/:id" element={<RecipePage />} />
           <Route path="savedrecipes" element={<SavedRecipes />} />
           <Route path="category/:category" element={<Home />} />
-          <Route path="/search/:query" element={<Home />} />
+          {/*<Route path="/search/:query" element={<Home />} />*/}
         </Route>
       </Routes>
     </BrowserRouter>
