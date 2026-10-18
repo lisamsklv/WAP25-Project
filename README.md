@@ -11,3 +11,8 @@ Technologies used
    - Express
    - MongoDB
    - Ant Design
+
+Functionality
+---
+   - Register and Login via token
+   - Creating, editing, deleting and saving recipies on database
